@@ -178,10 +178,11 @@ const Header = () => {
             <Typography
               variant="h4"
               noWrap
-              component="div"
+              component="Link"
+              
               sx={{ display: { xs: "none", sm: "block" } }}
             >
-              Grocery
+              <Link to={'/'} className="text-decoration-none text-white">Grocery</Link>
             </Typography>
     
             <Box sx={{ flexGrow: 1 }} />

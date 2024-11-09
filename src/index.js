@@ -6,27 +6,33 @@ import SignIn from "./Compenents/Sign-In/SignIn";
 import SignUp from "./Compenents/Sign-Up/SignUp";
 import App from "./App";
 import Error from "./Compenents/Error/Error";
+import ProductDetails from "./Compenents/Product-detail/ProductDetails";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    children:[
+    children: [
       {
         path: "",
         element: <App />,
       },
+      {
+        path: "product-details/:product_id",
+        element: <ProductDetails/>,
+      },
+      {
+        path: "sign-in",
+        element: <SignIn />,
+      },
+      {
+        path: "sign-up",
+        element: <SignUp />,
+      },
     ],
     errorElement: <Error />,
   },
-  {
-    path: "/sign-in",
-    element: <SignIn />,
-  },
-  {
-    path: "/sign-up",
-    element: <SignUp />,
-  },
+ 
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
