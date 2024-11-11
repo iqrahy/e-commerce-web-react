@@ -50,14 +50,14 @@ const ProductDetails = () => {
         </Box>
       ) : (
         <Grid container className="mt-5 pt-lg-5 container">
-          <Grid item sm={12} md={6} className="text-center border d-flex justify-content-center align-items-center">
+          <Grid item sm={12} md={6} className="text-center d-flex justify-content-center align-items-center">
             <img className="img-fluid w-50" src={productDetail?.image} alt="" />
           </Grid>
           <Grid item sm={12} md={6} className="d-flex flex-column mt-5 pt-lg-5">
             <Typography variant="h4" className="fw-medium">
               {productDetail?.title}
             </Typography>
-            <Typography variant="body1" className="fw-medium mt-3">
+            <Typography variant="body1" className="fw-medium mt-3 lh-lg">
               {productDetail?.description}
             </Typography>
             <Typography

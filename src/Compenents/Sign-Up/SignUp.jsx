@@ -10,6 +10,7 @@ import {
     Typography,
   } from "@mui/material";
   import React, { useState } from "react";
+  import SignUpImg from '../accets/sign-up.avif'
   import { Visibility, VisibilityOff } from "@mui/icons-material";
   import { useForm, Controller } from "react-hook-form";
   import { Link } from "react-router-dom";
@@ -63,11 +64,16 @@ import {
   
     return (
       <>
-        <Container className="container">
-
-          <Box className="container">
-            <Typography variant="h4" className="text-center my-4">
+        <Grid container className="container my-5 pt-md-5 d-flex justify-content-center">
+          <Grid item sx={12} md={6}>
+            <img className="img-fluid text-center" src={SignUpImg} alt="" />
+          </Grid>
+          <Grid item sx={12} md={6} className="mt-md-5">
+            <Typography variant="h4" className="text-center mt-4">
               Sign Up
+            </Typography>
+            <Typography variant="body1" className="text-center mb-2">
+              Create your account
             </Typography>
   
             <form onSubmit={handleSubmit(signUpHandler)}>
@@ -175,14 +181,14 @@ import {
                   >
                     Register
                   </Button>
-                  <Typography variant="body2" className="text-center mt-3">
-                    <Link to="/">Go to home</Link>
+                  <Typography variant="body2" className="text-center mt-3"> Already have an account?
+                    <Link to="/sign-in" className="text-danger"> Log in</Link>
                   </Typography>
                 </Grid>
               </Grid>
             </form>
-          </Box>
-        </Container>
+          </Grid>
+        </Grid>
       </>
     );
   };

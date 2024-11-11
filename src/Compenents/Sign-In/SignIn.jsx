@@ -10,7 +10,7 @@ import {
     Typography,
   } from "@mui/material";
   import React, { useState } from "react";
- 
+ import SignInImg from '../accets/sign-in.jpg'
   import { yupResolver } from "@hookform/resolvers/yup";
   import * as yup from "yup";
   import { Controller, useForm } from "react-hook-form";
@@ -50,10 +50,17 @@ import {
   
     return (
       <>
-        <Container>
+        <Grid container className="container my-5 pt-md-5 d-flex justify-content-center">
+          <Grid item sx={12} md={6}>
+            <img className="img-fluid text-center" src={SignInImg} alt="" />
+          </Grid>
+          <Grid item sx={12} md={6} className="mt-md-4">
           <Box>
-            <Typography variant="h4" className="text-center my-4">
+            <Typography variant="h4" className="text-center mt-4">
               Sign In
+            </Typography>
+            <Typography variant="body1" className="text-center mb-4">
+            Enter your credential to login
             </Typography>
   
             <form onSubmit={handleSubmit(signInHandler)}>
@@ -121,16 +128,20 @@ import {
                     fullWidth
                     color="error"
                   >
-                    Register
+                    Sign In
                   </Button>
-                  <Typography variant="body2" className="text-center mt-3">
-                    <Link to="/">Go to home</Link>
+
+                  <Typography variant="body2" className="text-center mt-3"> Don't have an account?
+                    <Link to="/sign-up" className="text-danger">Sign Up</Link>
                   </Typography>
+                 
                 </Grid>
               </Grid>
             </form>
           </Box>
-        </Container>
+          </Grid>
+         
+        </Grid>
       </>
     );
   };
