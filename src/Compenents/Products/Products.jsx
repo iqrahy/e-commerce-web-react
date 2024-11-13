@@ -15,21 +15,23 @@ import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 
 const Products = () => {
   const [cartList, setCartList] = useState([]);
   const [openAlert, setOpenAlert] = useState(false);
   const [openSuccess, setOpenSuccess] = useState(false);
   const [product, setProduct] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
   const [isLoader, setIsLoader] = useState(false);
+  const [categoryOption, setCategoryOption] = useState([]);
+  const [filteredCategories, setFilteredCategories] = useState({});
 
   const navigate = useNavigate();
 
-  console.log(isLoader , 'isLoader');
-  
-
   const cartHandler = (product) => {
-    const isExist = cartList.find((cart) => cart.id === product.id);
+    const isExist = cartList?.find((cart) => cart?.id === product?.id);
 
     if (!isExist) {
       setCartList((prev) => [...prev, product]);
@@ -71,21 +73,32 @@ const Products = () => {
   useEffect(() => {
     const fetchedProducts = async () => {
       try {
-        setIsLoader(true)
+        setIsLoader(true);
         const products = await axios.get("https://fakestoreapi.com/products");
-        console.log(products.data, "products");
 
-        
+        if (products.status === 200) {
+          setIsLoader(false);
+          setProduct(products?.data);
+          setAllProducts(products?.data);
 
-        if(products.status === 200){
-          setIsLoader(false)
-          setProduct(products.data);
+          const filteredCategories = products?.data?.map((item) => {
+            return {
+              label:
+                item?.category?.charAt(0).toUpperCase() +
+                item?.category?.slice(1),
+              value: item?.category,
+            };
+          });
 
-        }else{
-        setIsLoader(true)
+          const updatedCategory = filteredCategories.filter(
+            (item, index, self) =>
+              index === self?.findIndex((i) => i.value === item.value)
+          );
 
+          setCategoryOption(updatedCategory);
+        } else {
+          setIsLoader(true);
         }
-
       } catch (error) {
         console.log(error);
       }
@@ -94,8 +107,29 @@ const Products = () => {
     fetchedProducts();
   }, []);
 
+  useEffect(() => {
+    const filteredProducts = allProducts?.filter(
+      (p) => p?.category === filteredCategories?.value
+    );
+    setProduct(filteredProducts);
+    console.log(filteredProducts, "filteredProducts");
+  }, [filteredCategories]);
+
   return (
     <>
+      <Box className="d-flex justify-content-end me-3 me-md-5 mt-4">
+        <Autocomplete
+          disablePortal
+          size="small"
+          options={categoryOption}
+          onChange={(_, value) => {
+            setFilteredCategories(value);
+          }}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="Categories" />}
+        />
+      </Box>
+
       {/* already added item snackbar */}
       <Snackbar
         open={openAlert}
@@ -143,8 +177,7 @@ const Products = () => {
         ) : (
           <Grid
             container
-            spacing={3}
-            className="container-fluid d-flex justify-content-center align-items-center mt-4"
+            className="container-fluid d-flex justify-content-center mx-auto align-items-center mt-4"
           >
             {product?.map((item, index) => {
               return (
@@ -154,9 +187,10 @@ const Products = () => {
                   sm={5}
                   md={4}
                   lg={3}
+                  mb={3}
                   sx={{ minHeight: "300px", maxHeight: "600px" }}
                 >
-                  <Card key={index} sx={{ width: "305px", minWidth:'180px' }}>
+                  <Card key={index} sx={{ width: "305px", minWidth: "180px" }}>
                     <CardActionArea>
                       <Box className="text-center">
                         <img
@@ -182,16 +216,15 @@ const Products = () => {
                     <Divider sx={{ borderColor: "gray" }} />
                     <CardActions>
                       <Box className="d-flex justify-content-between align-items-center w-100 py-1 ">
-                        <Tooltip title="Product details">
-                          <VisibilityIcon  onClick={()=>{
-                              navigate(`/product-details/${item?.id}`)
-                              
+                        <Tooltip title=" View details">
+                          <VisibilityIcon
+                            onClick={() => {
+                              navigate(`/product-details/${item?.id}`);
                             }}
                             className="fs-1 p-2 btn btn-light rounded-circle"
                             sx={{
                               cursor: "pointer",
                             }}
-                           
                           />
                         </Tooltip>
 
@@ -212,7 +245,6 @@ const Products = () => {
                             className="fs-1 p-2 btn btn-light rounded-circle"
                             sx={{
                               cursor: "pointer",
-                        
                             }}
                           />
                         </Tooltip>
