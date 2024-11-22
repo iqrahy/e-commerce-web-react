@@ -15,6 +15,8 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Link } from "react-router-dom";
+import {useSelector } from "react-redux";
+import Cart from "../cart/Cart";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -59,6 +61,11 @@ const Search = styled("div")(({ theme }) => ({
 const Header = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+    const count = useSelector((state) => state.counter)
+
+    console.log(count, 'count');
+    
   
     const [open, setOpen] = React.useState(false);
   
@@ -127,7 +134,7 @@ const Header = () => {
       >
         <MenuItem>
           <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={1} color="error">
+            <Badge badgeContent={count?.value} color="error">
               <ShoppingCartIcon onClick={toggleDrawer(true)} />
             </Badge>
           </IconButton>
@@ -164,7 +171,7 @@ const Header = () => {
   return (
     <>
      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" className="py-2" sx={{backgroundColor:"#E53127"}}>
+        <AppBar position="fixed" className="py-2" sx={{backgroundColor:"#E53127"}}>
           <Toolbar>
             <IconButton
               size="large"
@@ -192,7 +199,7 @@ const Header = () => {
                 aria-label="show 4 new mails"
                 color="inherit"
               >
-                <Badge badgeContent={1} color="success">
+                <Badge badgeContent={count?.value} color="error">
                   <ShoppingCartIcon onClick={toggleDrawer(true)} />
                 </Badge>
               </IconButton>
@@ -233,6 +240,7 @@ const Header = () => {
         </AppBar>
         {renderMobileMenu}
         {renderMenu}
+        <Cart toggleDrawer={toggleDrawer} open={open} />
       </Box>
     </>
   );

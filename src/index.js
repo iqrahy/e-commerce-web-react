@@ -7,6 +7,9 @@ import SignUp from "./Compenents/Sign-Up/SignUp";
 import App from "./App";
 import Error from "./Compenents/Error/Error";
 import ProductDetails from "./Compenents/Product-detail/ProductDetails";
+import { store } from "./app/store";
+import { Provider } from "react-redux";
+import 'react-toastify/dist/ReactToastify.css';
 
 const router = createBrowserRouter([
   {
@@ -19,7 +22,7 @@ const router = createBrowserRouter([
       },
       {
         path: "product-details/:product_id",
-        element: <ProductDetails/>,
+        element: <ProductDetails />,
       },
       {
         path: "sign-in",
@@ -32,8 +35,11 @@ const router = createBrowserRouter([
     ],
     errorElement: <Error />,
   },
- 
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<RouterProvider router={router} />);
+root.render(
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
+);

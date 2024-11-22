@@ -17,9 +17,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../../slices/products/productSlice";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Products = () => {
-  const [cartList, setCartList] = useState([]);
   const [openAlert, setOpenAlert] = useState(false);
   const [openSuccess, setOpenSuccess] = useState(false);
   const [product, setProduct] = useState([]);
@@ -29,18 +31,8 @@ const Products = () => {
   const [filteredCategories, setFilteredCategories] = useState({});
 
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
-  const cartHandler = (product) => {
-    const isExist = cartList?.find((cart) => cart?.id === product?.id);
-
-    if (!isExist) {
-      setCartList((prev) => [...prev, product]);
-
-      setOpenSuccess(true);
-    } else {
-      setOpenAlert(true);
-    }
-  };
 
   const handleClose = (reason) => {
     if (reason === "clickaway") {
@@ -112,11 +104,12 @@ const Products = () => {
       (p) => p?.category === filteredCategories?.value
     );
     setProduct(filteredProducts);
-    console.log(filteredProducts, "filteredProducts");
   }, [filteredCategories]);
 
+  
   return (
-    <>
+    <Box className='mt-5 pt-4'>
+      <ToastContainer />
       <Box className="d-flex justify-content-end me-3 me-md-5 mt-4">
         <Autocomplete
           disablePortal
@@ -235,7 +228,7 @@ const Products = () => {
                             }}
                             className="fs-1 py-1 w-50 rounded-pill btn btn-outline-danger"
                             onClick={() => {
-                              cartHandler(item);
+                              dispatch(addProduct({item, toast}))
                             }}
                           />
                         </Tooltip>
@@ -257,7 +250,7 @@ const Products = () => {
           </Grid>
         )}
       </Box>
-    </>
+    </Box>
   );
 };
 
