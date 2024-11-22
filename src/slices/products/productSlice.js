@@ -11,6 +11,7 @@ export const productSlice = createSlice({
       console.log(action.payload, 'action');
       
       const {item, toast} = action.payload
+      
 
       const isExist = state.item.find((i)=> i.id === item.id)
       console.log(isExist, 'isExist');
@@ -19,7 +20,7 @@ export const productSlice = createSlice({
         toast.error("Item already in cart!")
       }else{
         toast.success("Added to cart successfully!")
-        state.item.push({...item, quantity : 1})
+        state.item.push({...item, quantity: 1})
       
       }
       

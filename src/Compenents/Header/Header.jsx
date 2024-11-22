@@ -1,11 +1,9 @@
 import React from "react";
 import { Typography } from "@mui/material";
-import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -18,54 +16,14 @@ import { Link } from "react-router-dom";
 import {useSelector } from "react-redux";
 import Cart from "../cart/Cart";
 
-const Search = styled("div")(({ theme }) => ({
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
-    },
-  }));
-  
-  const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  }));
-  
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
-    "& .MuiInputBase-input": {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("md")]: {
-        width: "20ch",
-      },
-    },
-  }));
 
 const Header = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-    const count = useSelector((state) => state.counter)
+    const item = useSelector((state) => state.products.item);
 
-    console.log(count, 'count');
-    
+    const totalQuantity = item.reduce((total, item)=> total + item.quantity, 0)
   
     const [open, setOpen] = React.useState(false);
   
@@ -134,11 +92,10 @@ const Header = () => {
       >
         <MenuItem>
           <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={count?.value} color="error">
+            <Badge badgeContent={totalQuantity} color="success">
               <ShoppingCartIcon onClick={toggleDrawer(true)} />
             </Badge>
           </IconButton>
-          <p>Messages</p>
         </MenuItem>
         <MenuItem>
           <IconButton
@@ -146,11 +103,10 @@ const Header = () => {
             aria-label="show 17 new notifications"
             color="inherit"
           >
-            <Badge badgeContent={17} color="error">
+            <Badge badgeContent={17} color="success">
               <FavoriteBorderIcon />
             </Badge>
           </IconButton>
-          <p>FavoriteBorderIcon</p>
         </MenuItem>
         <MenuItem onClick={handleProfileMenuOpen}>
           <IconButton
@@ -162,7 +118,6 @@ const Header = () => {
           >
             <AccountCircle />
           </IconButton>
-          <p>Profile</p>
         </MenuItem>
       </Menu>
     );
@@ -199,8 +154,8 @@ const Header = () => {
                 aria-label="show 4 new mails"
                 color="inherit"
               >
-                <Badge badgeContent={count?.value} color="error">
-                  <ShoppingCartIcon onClick={toggleDrawer(true)} />
+                <Badge badgeContent={totalQuantity} color="success">
+                  <ShoppingCartIcon onClick={ toggleDrawer(true)} />
                 </Badge>
               </IconButton>
               <IconButton

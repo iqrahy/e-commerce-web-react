@@ -18,16 +18,28 @@ const Cart = (props) => {
   const { open, toggleDrawer } = props;
 
   const { item } = useSelector((state) => state.products);
+
   const dispatch = useDispatch();
 
- 
+  const totalPrice = item?.reduce(
+    (sum, product) => sum + product.price * product.quantity,
+    0
+  );
 
-  const totalPrice = item?.reduce((sum, product)=> sum + product.price*product.quantity, 0 )
-  
   return (
     <>
       <Drawer open={open} onClose={toggleDrawer(false)}>
-        <Box sx={{ width: 550 }} role="presentation">
+        <Box
+          sx={{
+            width: {
+              xs: "100%",
+              sm: 350,
+              md: 550,
+
+            },
+          }}
+          role="presentation"
+        >
           <Box className="d-flex align-items-center gap-3 mb-3 border-bottom py-2 mx-4">
             <KeyboardBackspaceIcon
               sx={{ cursor: "pointer" }}
@@ -38,7 +50,12 @@ const Cart = (props) => {
           {item.length === 0 ? (
             <Box>
               <Box className="text-center mt-5">
-                <img src={CartImg} width={"300px"} alt="" />
+                <img
+                  src={CartImg}
+                  className="img-fluid"
+                  width={"300px"}
+                  alt=""
+                />
                 <Typography variant="h4" color="textPrimary">
                   Oops, Nothing Here Yet!
                 </Typography>
@@ -50,7 +67,7 @@ const Cart = (props) => {
           ) : (
             item?.map((item) => {
               return (
-                <Box className='w-100 position-relative'>
+                <Box className="w-100 position-relative">
                   <Box className="mx-4 border-bottom py-2 my-1 d-flex justify-content-between align-items-center">
                     <Box className="d-flex align-items-center gap-2">
                       <img
@@ -96,7 +113,10 @@ const Cart = (props) => {
                     />
                   </Box>
 
-                  <Box sx={{ width: 550 }} className='d-flex justify-content-between align-items-center bg-body-secondary p-3 position-fixed bottom-0'>
+                  <Box
+                    sx={{ width: 550 }}
+                    className="d-flex justify-content-between align-items-center bg-body-secondary p-3 position-fixed bottom-0"
+                  >
                     <Typography variant="h5">Total Price</Typography>
                     <Typography variant="body1">${totalPrice}</Typography>
                   </Box>
