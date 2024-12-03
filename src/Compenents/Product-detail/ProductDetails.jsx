@@ -6,41 +6,13 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { useParams } from "react-router-dom";
+import useProductDetail from "./useProductDetail";
 
 const ProductDetails = () => {
-  const [productDetail, setProductDetail] = useState([]);
-  const [isLoader, setIsLoader] = useState(false);
-
-  const param = useParams();
-
-  console.log(param, "param");
-
-  useEffect(() => {
-    const fetchedProducts = async () => {
-      try {
-        setIsLoader(true);
-        const products = await axios.get(
-          `https://fakestoreapi.com/products/${param?.product_id}`
-        );
-        console.log(products.data, "products");
-
-        if (products.status === 200) {
-          setIsLoader(false);
-          setProductDetail(products.data);
-        } else {
-          setIsLoader(true);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchedProducts();
-  }, []);
+  
+  const {productDetail , isLoader} = useProductDetail()
 
   return (
     <>
@@ -49,7 +21,7 @@ const ProductDetails = () => {
           <CircularProgress color="inherit" />
         </Box>
       ) : (
-        <Grid container className="mt-5 pt-lg-5 container">
+        <Grid container className="mt-5 pt-5 container">
           <Grid item sm={12} md={6} className="text-center d-flex justify-content-center align-items-center">
             <img className="img-fluid w-50" src={productDetail?.image} alt="" />
           </Grid>

@@ -170,7 +170,7 @@ const Products = () => {
         ) : (
           <Grid
             container
-            className="container-fluid d-flex justify-content-center mx-auto align-items-center mt-4"
+            className="container-fluid d-flex ps-5 ps-md-3 ps-lg-3 ps-xxl-5 ms-xxl-5 justify-content-center mx-auto align-items-center mt-4"
           >
             {product?.map((item, index) => {
               return (
@@ -183,7 +183,7 @@ const Products = () => {
                   mb={3}
                   sx={{ minHeight: "300px", maxHeight: "600px" }}
                 >
-                  <Card key={index} sx={{ width: "305px", minWidth: "180px" }}>
+                  <Card key={index} sx={{ width: "290px", minWidth: "180px" }}>
                     <CardActionArea>
                       <Box className="text-center">
                         <img
@@ -214,7 +214,7 @@ const Products = () => {
                             onClick={() => {
                               navigate(`/product-details/${item?.id}`);
                             }}
-                            className="fs-1 p-2 btn btn-light rounded-circle"
+                            className="fs-1 p-md-2 p-1 btn btn-light rounded-circle"
                             sx={{
                               cursor: "pointer",
                             }}
@@ -235,7 +235,7 @@ const Products = () => {
 
                         <Tooltip title="Favorite">
                           <FavoriteBorderIcon
-                            className="fs-1 p-2 btn btn-light rounded-circle"
+                            className="fs-1 p-md-2 p-1 btn btn-light rounded-circle"
                             sx={{
                               cursor: "pointer",
                             }}
